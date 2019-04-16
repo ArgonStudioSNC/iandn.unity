@@ -15,7 +15,7 @@ public class NavbarScript : MonoBehaviour
     protected void Start()
     {
         mScreenManager = FindObjectOfType<ScreenManager>();
-        mWeddingDate = new DateTime(2019, 10, 11, 16, 0, 0);
+        mWeddingDate = new DateTime(2019, 10, 11, 15, 0, 0);
         mText = titleText.GetComponent<Text>();
     }
 
