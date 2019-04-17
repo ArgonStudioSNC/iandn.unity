@@ -7,28 +7,27 @@ public class NavbarScript : MonoBehaviour
     public Transform titleText;
     public Transform backButton;
 
-    private DateTime mWeddingDate;
-    private ScreenManager mScreenManager;
-    private Text mText;
+    private ScreenManager m_screenManager;
+    private MainSceneManager m_mainSceneManager;
+    private Text m_text;
 
-    // Start is called before the first frame update
     protected void Start()
     {
-        mScreenManager = FindObjectOfType<ScreenManager>();
-        mWeddingDate = new DateTime(2019, 10, 11, 15, 0, 0);
-        mText = titleText.GetComponent<Text>();
+        m_mainSceneManager = FindObjectOfType<MainSceneManager>();
+        m_screenManager = FindObjectOfType<ScreenManager>();
+        m_text = titleText.GetComponent<Text>();
     }
 
-    // Update is called once per frame
     protected void Update()
     {
-        if (!mScreenManager.IsScreenOpen())
+        if (!m_screenManager.IsScreenOpen())
         {
             backButton.gameObject.SetActive(false);
 
-            TimeSpan countdown = mWeddingDate.Subtract(DateTime.Now);
-            mText.text = stringBuilder(countdown);
-        } else
+            TimeSpan countdown = m_mainSceneManager.weddingDate.Subtract(DateTime.Now);
+            m_text.text = stringBuilder(countdown);
+        }
+        else
         {
             backButton.gameObject.SetActive(true);
         }
@@ -36,7 +35,7 @@ public class NavbarScript : MonoBehaviour
 
     public void SetText(string newtext)
     {
-        mText.text = newtext;
+        m_text.text = newtext;
     }
 
     private string stringBuilder(TimeSpan duration)

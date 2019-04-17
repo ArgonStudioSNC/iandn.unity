@@ -18,7 +18,7 @@ public class ScreenManager : MonoBehaviour
     const string k_OpenTransitionName = "Open";
     const string k_ClosedStateName = "Closed";
 
-    public void OnEnable()
+    protected void OnEnable()
     {
         //We cache the Hash to the "Open" Parameter, so we can feed to Animator.SetBool.
         m_OpenParameterId = Animator.StringToHash(k_OpenTransitionName);
@@ -77,11 +77,11 @@ public class ScreenManager : MonoBehaviour
     public void CloseCurrent()
     {
         if (m_Open == null)
-        return;
+            return;
 
         //Start the close animation.
         m_Open.SetBool(m_OpenParameterId, false);
-        
+
         //Start Coroutine to disable the hierarchy when closing animation finishes.
         StartCoroutine(DisablePanelDeleyed(m_Open));
         //No screen open.

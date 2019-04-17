@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System;
 using UnityEngine.Video;
 
 public class LoginScreenManager : MonoBehaviour
@@ -43,7 +42,7 @@ public class LoginScreenManager : MonoBehaviour
         }
     }
 
-    private void AccessApp()
+    public void AccessApp()
     {
         StartCoroutine(LoadYourAsyncScene("MainScene"));
     }
