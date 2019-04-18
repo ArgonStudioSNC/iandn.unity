@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ScreenManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class ScreenManager : MonoBehaviour
     public Animator initiallyOpen;
 
     //Currently Open Screen
-    private Animator m_Open;
+    private Stack<Animator> m_OpenStack = new Stack<Animator>();
 
     //Hash of the parameter we use to control the transitions.
     private int m_OpenParameterId;
@@ -33,7 +34,7 @@ public class ScreenManager : MonoBehaviour
     //It also takes care of handling the navigation, setting the new Selected element.
     public void OpenPanel(Animator anim)
     {
-        if (m_Open == anim)
+        if (m_OpenStack.Contains(anim))
             return;
 
         anim.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
@@ -43,12 +44,10 @@ public class ScreenManager : MonoBehaviour
         //Move the Screen to front.
         anim.transform.SetAsLastSibling();
 
-        CloseCurrent();
-
         //Set the new Screen as then open one.
-        m_Open = anim;
+        m_OpenStack.Push(anim);
         //Start the open animation
-        m_Open.SetBool(m_OpenParameterId, true);
+        m_OpenStack.Peek().SetBool(m_OpenParameterId, true);
 
         //Set an element in the new screen as the new Selected one.
         GameObject go = FindFirstEnabledSelectable(anim.gameObject);
@@ -76,16 +75,14 @@ public class ScreenManager : MonoBehaviour
     //Reverting selection to the Selectable used before opening the current screen.
     public void CloseCurrent()
     {
-        if (m_Open == null)
+        if (m_OpenStack.Count == 0)
             return;
 
         //Start the close animation.
-        m_Open.SetBool(m_OpenParameterId, false);
+        m_OpenStack.Peek().SetBool(m_OpenParameterId, false);
 
         //Start Coroutine to disable the hierarchy when closing animation finishes.
-        StartCoroutine(DisablePanelDeleyed(m_Open));
-        //No screen open.
-        m_Open = null;
+        StartCoroutine(DisablePanelDeleyed(m_OpenStack.Pop()));
     }
 
     //Coroutine that will detect when the Closing animation is finished and it will deactivate the
@@ -129,6 +126,6 @@ public class ScreenManager : MonoBehaviour
 
     public bool IsScreenOpen()
     {
-        return m_Open != null;
+        return m_OpenStack.Count != 0;
     }
 }
