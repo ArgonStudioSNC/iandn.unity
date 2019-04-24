@@ -72,7 +72,7 @@ public class InscriptionScript : MonoBehaviour
         {
             string message = buildMail();
 
-            sendMail("loic@argonstudio.ch", "Nouvelle inscription au mariage", message);
+            sendMail("nboder@gmail.com", "Nouvelle inscription au mariage", message);
 
             PersistentToken.SetRegistration(true);
             checkIfSubscribed();
