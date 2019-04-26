@@ -8,6 +8,7 @@ TagManager:
   - PrenomField
   - MenuToggle
   - RemarquesField
+  - PresenceToggle
   layers:
   - Default
   - TransparentFX

@@ -23,19 +23,25 @@ public class InscriptionScript : MonoBehaviour
     private Transform mInviteContainer;
     private Transform mConfirmationPanel;
     private Transform mInscriptionPanel;
+    private bool m_hasAccessToMeal;
 
+    protected void OnEnable()
+    {
+        checkIfSubscribed();
+    }
 
     protected void Awake()
     {
         mConfirmationPanel = transform.Find("ConfirmationPanel");
         mInscriptionPanel = transform.Find("InscriptionPanel");
-
-        checkIfSubscribed();
     }
 
     protected void Start()
     {
-        if (!PersistentToken.hasAccessToMeal()) inviteSection.FindDeepChild("Menu").gameObject.SetActive(false);
+        m_hasAccessToMeal = PersistentToken.hasAccessToMeal();
+
+        if (!m_hasAccessToMeal) inviteSection.FindDeepChild("Menu").gameObject.SetActive(false);
+        PresenseStatusChanged(inviteSection);
 
         mInviteSectionTemplate = Instantiate(inviteSection);
         mInviteSectionStack.Push(inviteSection);
@@ -66,6 +72,15 @@ public class InscriptionScript : MonoBehaviour
         }
     }
 
+    public void PresenseStatusChanged(Transform invite)
+    {
+        if (m_hasAccessToMeal)
+        {
+            bool comming = invite.FindObjectsWithTag("PresenceToggle").LastOrDefault().GetComponentInChildren<Toggle>().isOn;
+            invite.FindDeepChild("MenuMask").GetComponent<Image>().enabled = !comming;
+        }
+    }
+
     public void Transmit()
     {
         try
@@ -79,25 +94,27 @@ public class InscriptionScript : MonoBehaviour
         }
         catch (MissingFieldException e)
         {
+            Debug.Log(e);
             errorText.text = e.Message;
-            StartCoroutine(ResetError(1));
+            StartCoroutine(ResetError(2));
         }
-        catch (SmtpException)
+        catch (SmtpException e)
         {
-            errorText.text = "Echec de l'envoi";
-            StartCoroutine(ResetError(1));
+            errorText.text = "Echec de l'envoi (" + e.StatusCode.ToString() + ")";
+            StartCoroutine(ResetError(2));
         }
     }
 
     private string buildMail()
     {
-        string message = "<div>De nouvelles personnes se sont inscrits au mariage (<span style=\"color:red;\">";
-        message += PersistentToken.hasAccessToMeal() ? "souper" : "apero";
+        string message = "<div>De nouvelles personnes se sont inscrits au mariage (acces <span style=\"color:red;\">";
+        message += m_hasAccessToMeal ? "souper" : "apero";
         message += "</span>)</div>";
 
         foreach (Transform invite in mInviteContainer)
         {
-            message += "<div style=\"color:red;\">";
+            bool participe = invite.FindObjectsWithTag("PresenceToggle").LastOrDefault().GetComponentInChildren<Toggle>().isOn;
+
             string prenom = invite.FindObjectsWithTag("PrenomField").LastOrDefault().GetComponent<Text>().text;
             string nom = invite.FindObjectsWithTag("NomField").LastOrDefault().GetComponent<Text>().text;
             if (prenom == "" || nom == "")
@@ -105,16 +122,20 @@ public class InscriptionScript : MonoBehaviour
                 throw new MissingFieldException("Prénom et Nom requis");
             }
 
+            message = string.Concat(message, "<p><div><b>", participe ? "Vient au mariage" : "Ne vient pas au mariage", "</b></div>");
+            message += "<div style=\"color:red;\">";
             message = string.Concat(message, prenom, " ");
             message = string.Concat(message, nom, "</div>");
 
-            if (PersistentToken.hasAccessToMeal())
+            if (participe && m_hasAccessToMeal)
             {
                 message = string.Concat(message, "<div style=\"color:red;\">", invite.FindObjectsWithTag("MenuToggle").LastOrDefault().GetComponent<ToggleGroup>().ActiveToggles().First().GetComponentInChildren<Text>().text, "</div>");
             }
+
+            message = string.Concat(message, "</p>");
         }
 
-        message = string.Concat(message, "<div>Remarques: <span style=\"color:red;\">", transform.FindObjectsWithTag("RemarquesField").LastOrDefault().GetComponent<Text>().text, "</span></div>");
+        message = string.Concat(message, "<p><div>Remarques: <span style=\"color:red;\">", transform.FindObjectsWithTag("RemarquesField").LastOrDefault().GetComponent<Text>().text, "</span></div></p>");
 
         return message;
     }
@@ -151,10 +172,7 @@ public class InscriptionScript : MonoBehaviour
 
     private void checkIfSubscribed()
     {
-        if (PersistentToken.IsRegistred())
-        {
-            mConfirmationPanel.gameObject.SetActive(true);
-            mInscriptionPanel.gameObject.SetActive(false);
-        }
+        mConfirmationPanel.gameObject.SetActive(PersistentToken.IsRegistred());
+        mInscriptionPanel.gameObject.SetActive(!PersistentToken.IsRegistred());
     }
 }

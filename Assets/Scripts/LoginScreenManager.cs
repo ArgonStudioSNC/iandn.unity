@@ -17,6 +17,10 @@ public class LoginScreenManager : MonoBehaviour
 
     protected void Start()
     {
+#if UNITY_IOS
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+#endif
         StartCoroutine(StartWelcomeScreen());
     }
 
