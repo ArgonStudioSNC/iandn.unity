@@ -235,6 +235,11 @@ namespace UnityEngine.UI
                 m_VerticalScrollbar.onValueChanged.AddListener(SetVerticalNormalizedPosition);
 
             CanvasUpdateRegistry.RegisterCanvasElementForLayoutRebuild(this);
+
+
+            // Reset scrollRect content position
+            RectTransform contentRectTransform = content.GetComponent<RectTransform>();
+            contentRectTransform.offsetMax = new Vector2(contentRectTransform.offsetMax.x, 0);
         }
 
         protected override void OnDisable()

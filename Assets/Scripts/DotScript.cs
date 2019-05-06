@@ -29,6 +29,8 @@ public class DotScript : MonoBehaviour
         m_rawImage.texture = staticFrame;
         videoPlayer.isLooping = false;
         videoPlayer.Stop();
+        m_rawImage.texture = staticFrame;
+        videoPlayer.Prepare();
         m_animationIsOn = false;
         m_lock = false;
     }
@@ -80,7 +82,7 @@ public class DotScript : MonoBehaviour
     private void EndReached(VideoPlayer vp)
     {
         vp.Stop();
-        m_rawImage.texture = staticFrame;
         m_lock = false;
+        m_rawImage.texture = staticFrame;
     }
 }

@@ -13,7 +13,6 @@ public class LoginScreenManager : MonoBehaviour
     public Transform logo;
     public Transform login;
     public VideoPlayer videoPlayer;
-    public Texture lastFrame;
 
     protected void Start()
     {
@@ -63,17 +62,18 @@ public class LoginScreenManager : MonoBehaviour
 
     private IEnumerator StartWelcomeScreen()
     {
+        videoPlayer.Stop();
         videoPlayer.Prepare();
-        WaitForSeconds waitForSeconds = new WaitForSeconds(1);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(1f);
         while (!videoPlayer.isPrepared)
         {
             yield return waitForSeconds;
             break;
         }
-        logo.GetComponent<RawImage>().texture = videoPlayer.texture;
+
+        logo.GetComponentInChildren<RawImage>().texture = videoPlayer.texture;
         videoPlayer.Play();
         yield return WaitForVideoPlayer(videoPlayer);
-        logo.GetComponent<RawImage>().texture = lastFrame;
 
         if (PersistentToken.IsLogged())
         {

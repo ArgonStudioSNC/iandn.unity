@@ -43,6 +43,7 @@ public class CursorScript : MonoBehaviour
     protected void Update()
     {
         m_now = DateTime.Now;
+
         if (m_isStarting)
         {
             time += Time.deltaTime;
@@ -73,7 +74,6 @@ public class CursorScript : MonoBehaviour
         {
             m_image.enabled = m_now >= m_checkpoints[0];
             float anchor = GetAnchorPosition();
-            Debug.Log(anchor);
             m_rectTransform.anchorMin = new Vector2(0.5f, anchor);
             m_rectTransform.anchorMax = new Vector2(0.5f, anchor);
         }
