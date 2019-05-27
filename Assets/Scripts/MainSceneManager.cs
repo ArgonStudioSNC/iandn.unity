@@ -9,7 +9,6 @@ public class MainSceneManager : MonoBehaviour
     public Transform navbar;
     public Transform mainMenu;
 
-    public Transform displayedWithoutRegistration;
     public Transform[] disabledWithoutMealAccess;
 
     private ScreenManager m_screenManager;
@@ -24,14 +23,7 @@ public class MainSceneManager : MonoBehaviour
         m_text = navbar.Find("TitleText").GetComponent<Text>();
         m_backButton = navbar.Find("BackButton");
 
-        if (!PersistentToken.IsLogged())
-        {
-            m_homeScreen.gameObject.SetActive(false);
-            SetText("Isabel & Nathan");
-            m_screenManager.OpenPanel(displayedWithoutRegistration.gameObject.GetComponent<Animator>());
-        }
-
-        if (!PersistentToken.hasAccessToMeal())
+        if (0 == PlayerPrefs.GetInt("souper", 0))
         {
             foreach (Transform t in disabledWithoutMealAccess)
             {
@@ -44,14 +36,20 @@ public class MainSceneManager : MonoBehaviour
     {
         if (!m_screenManager.IsScreenOpen())
         {
-            m_backButton.gameObject.SetActive(false);
             TimeSpan countdown = weddingDate.Subtract(DateTime.Now);
             m_text.text = countdown.Milliseconds >= 0 ? stringBuilder(countdown) : "Just Married";
+        }
+
+#if UNITY_ANDROID && ! UNITY_EDITOR
+        if (!m_screenManager.IsScreenOpen())
+        {
+            m_backButton.gameObject.SetActive(false);
         }
         else
         {
             m_backButton.gameObject.SetActive(true);
         }
+#endif
     }
 
     public void SetText(string newtext)

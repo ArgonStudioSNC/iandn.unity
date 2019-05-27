@@ -14,6 +14,6 @@ public class MenuProgrammeScript : MonoBehaviour
 
     public void OpenProgrammePage()
     {
-        m_screneManager.OpenPanel(PersistentToken.hasAccessToMeal() ? souperPanel : aperoPanel);
+        m_screneManager.OpenPanel((0 != PlayerPrefs.GetInt("souper")) ? souperPanel : aperoPanel);
     }
 }

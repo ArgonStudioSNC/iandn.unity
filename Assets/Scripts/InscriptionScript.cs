@@ -38,7 +38,7 @@ public class InscriptionScript : MonoBehaviour
 
     protected void Start()
     {
-        m_hasAccessToMeal = PersistentToken.hasAccessToMeal();
+        m_hasAccessToMeal = (0 != PlayerPrefs.GetInt("souper", 0));
 
         if (!m_hasAccessToMeal) inviteSection.FindDeepChild("Menu").gameObject.SetActive(false);
         PresenseStatusChanged(inviteSection);
@@ -89,7 +89,8 @@ public class InscriptionScript : MonoBehaviour
 
             sendMail("nboder@gmail.com", "Nouvelle inscription au mariage", message);
 
-            PersistentToken.SetRegistration(true);
+            PlayerPrefs.SetInt("registred", 1);
+
             checkIfSubscribed();
         }
         catch (MissingFieldException e)
@@ -135,7 +136,15 @@ public class InscriptionScript : MonoBehaviour
             message = string.Concat(message, "</p>");
         }
 
-        message = string.Concat(message, "<p><div>Remarques: <span style=\"color:red;\">", transform.FindObjectsWithTag("RemarquesField").LastOrDefault().GetComponent<Text>().text, "</span></div></p>");
+        string email = transform.FindObjectsWithTag("EmailField").LastOrDefault().GetComponent<Text>().text;
+        if (email == "")
+        {
+            throw new MissingFieldException("Email requis");
+        }
+        message = string.Concat(message, "<p><div>Email: <span style=\"color:red;\">", email, "</span></div></p>");
+
+        string remarques = transform.FindObjectsWithTag("RemarquesField").LastOrDefault().GetComponent<Text>().text;
+        message = string.Concat(message, "<p><div>Remarques: <span style=\"color:red;\">", remarques, "</span></div></p>");
 
         return message;
     }
@@ -172,7 +181,8 @@ public class InscriptionScript : MonoBehaviour
 
     private void checkIfSubscribed()
     {
-        mConfirmationPanel.gameObject.SetActive(PersistentToken.IsRegistred());
-        mInscriptionPanel.gameObject.SetActive(!PersistentToken.IsRegistred());
+        bool registred = (0 != PlayerPrefs.GetInt("registred", 0));
+        mConfirmationPanel.gameObject.SetActive(registred);
+        mInscriptionPanel.gameObject.SetActive(!registred);
     }
 }

@@ -9,45 +9,50 @@ public class LoginScreenManager : MonoBehaviour
 {
     public TextAsset credentialsFile;
     public Text errorText;
-    public Text codeText;
     public Transform logo;
     public Transform login;
+    public Button accessButton;
+    public InputField codeInput;
     public VideoPlayer videoPlayer;
+
+    protected void Awake()
+    {
+        videoPlayer.Prepare();
+    }
 
     protected void Start()
     {
-#if UNITY_IOS
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
-#endif
+        login.gameObject.SetActive(false);
         StartCoroutine(StartWelcomeScreen());
     }
 
     public void CheckCode()
     {
-        string code = codeText.text;
+        string code = codeInput.text;
         Dictionary<string, string> credentials = CredentialsHelper.GetDictionary(credentialsFile);
 
         if (code.Equals(credentials["code-apero"]))
         {
-            PersistentToken.SetLogged(true);
+            PlayerPrefs.SetInt("logged", 1);
             AccessApp();
         }
         else if (code.Equals(credentials["code-souper"]))
         {
-            PersistentToken.SetMealAccess(true);
-            PersistentToken.SetLogged(true);
+            PlayerPrefs.SetInt("souper", 1);
+            PlayerPrefs.SetInt("logged", 1);
             AccessApp();
         }
         else
         {
             errorText.text = "Code non valide";
+            ResetError(2);
         }
     }
 
     public void AccessApp()
     {
-        StartCoroutine(LoadYourAsyncScene("MainScene"));
+        PlayerPrefs.SetInt("first-access", 0);
+        StartCoroutine(LoadYourAsyncScene("I&N"));
     }
 
     private IEnumerator LoadYourAsyncScene(string sceneName)
@@ -62,8 +67,6 @@ public class LoginScreenManager : MonoBehaviour
 
     private IEnumerator StartWelcomeScreen()
     {
-        videoPlayer.Stop();
-        videoPlayer.Prepare();
         WaitForSeconds waitForSeconds = new WaitForSeconds(1f);
         while (!videoPlayer.isPrepared)
         {
@@ -71,14 +74,25 @@ public class LoginScreenManager : MonoBehaviour
             break;
         }
 
-        logo.GetComponentInChildren<RawImage>().texture = videoPlayer.texture;
         videoPlayer.Play();
+        while (videoPlayer.frame < 1)
+        {
+            yield return null;
+        }
+        logo.GetComponentInChildren<RawImage>().texture = videoPlayer.texture;
+
         yield return WaitForVideoPlayer(videoPlayer);
 
-        if (PersistentToken.IsLogged())
+        if (0 != PlayerPrefs.GetInt("logged", 0))
         {
-            AccessApp();
-            yield break;
+            if (0 == PlayerPrefs.GetInt("first-access", 1))
+            {
+                AccessApp();
+                yield break;
+            }
+            PlayerPrefs.SetInt("first-access", 1);
+            codeInput.gameObject.SetActive(false);
+            accessButton.gameObject.SetActive(true);
         }
 
         Animation anim = logo.GetComponent<Animation>();
@@ -104,6 +118,12 @@ public class LoginScreenManager : MonoBehaviour
         {
             yield return null;
         } while (vp.isPlaying);
+    }
+
+    private IEnumerator ResetError(int time)
+    {
+        yield return new WaitForSeconds(time);
+        errorText.text = "";
     }
 }
 

@@ -9,6 +9,7 @@ TagManager:
   - MenuToggle
   - RemarquesField
   - PresenceToggle
+  - EmailField
   layers:
   - Default
   - TransparentFX

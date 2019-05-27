@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 public class BackEventScript : MonoBehaviour
 {
     private AndroidJavaObject m_activity;
+    private ScreenManager m_screenManager;
 
     protected void Start()
     {
         m_activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
+        m_screenManager = FindObjectOfType<ScreenManager>();
     }
 
     protected void Update()
@@ -24,30 +26,36 @@ public class BackEventScript : MonoBehaviour
 
     public void GoBack()
     {
-#if UNITY_ANDROID
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (m_screenManager == null)
         {
+#if UNITY_IOS
+            PlayerPrefs.DeleteKey("logged");
+            SceneManager.LoadSceneAsync(sceneIndex - 1);
+#else
             m_activity.Call<bool>("moveTaskToBack", true);
             return;
-        }
 #endif
-        ScreenManager screenManager = FindObjectOfType<ScreenManager>();
-        if (screenManager == null) return;
-
-        if (!PersistentToken.IsLogged())
-        {
-            StartCoroutine(LoadYourAsyncScene("LoginScreen"));
-            return;
         }
-
-        if (screenManager.IsScreenOpen())
+        else
         {
-            screenManager.CloseCurrent();
-            return;
-        }
-#if UNITY_ANDROID
-        m_activity.Call<bool>("moveTaskToBack", true);
+            if (m_screenManager.IsScreenOpen())
+            {
+                m_screenManager.CloseCurrent();
+                return;
+            }
+            else
+            {
+#if UNITY_IOS
+                PlayerPrefs.DeleteKey("logged");
+                SceneManager.LoadSceneAsync(0);
+#else
+                m_activity.Call<bool>("moveTaskToBack", true);
+                return;
 #endif
+            }
+        }
     }
 
     private IEnumerator LoadYourAsyncScene(string sceneName)
