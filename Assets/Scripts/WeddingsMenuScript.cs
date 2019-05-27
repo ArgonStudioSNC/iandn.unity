@@ -27,9 +27,9 @@ public class WeddingsMenuScript : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
         SceneManager.LoadScene("I&N-Loader");
 #else
-        if (PlayerPrefs.HasKey("quick-access-code") && 0 != PlayerPrefs.GetInt("logged", 0))
+        if (PlayerPrefs.HasKey("quick-access-code") && (0 != PlayerPrefs.GetInt("logged", 0)))
         {
-            CodeCheckInner(PlayerPrefs.GetString("quick-access-code"));
+            AccessApp();
         }
 #endif
     }
