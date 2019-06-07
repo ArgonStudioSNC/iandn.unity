@@ -15,15 +15,19 @@ public class LoginScreenManager : MonoBehaviour
     public InputField codeInput;
     public VideoPlayer videoPlayer;
 
-    protected void Awake()
-    {
-        videoPlayer.Prepare();
-    }
-
     protected void Start()
     {
+        logo.GetComponentInChildren<RawImage>().texture = null;
+        videoPlayer.Prepare();
+
         login.gameObject.SetActive(false);
+
         StartCoroutine(StartWelcomeScreen());
+    }
+
+    protected void OnDestroy()
+    {
+        videoPlayer.Stop();
     }
 
     public void CheckCode()

@@ -5,18 +5,18 @@ public class SafeArea : MonoBehaviour
     RectTransform Panel;
     Rect LastSafeArea = new Rect(0, 0, 0, 0);
 
-    void Awake()
+    protected void Awake()
     {
         Panel = GetComponent<RectTransform>();
         Refresh();
     }
 
-    void Update()
+    protected void Update()
     {
         Refresh();
     }
 
-    void Refresh()
+    protected void Refresh()
     {
         Rect safeArea = GetSafeArea();
 
@@ -24,25 +24,24 @@ public class SafeArea : MonoBehaviour
             ApplySafeArea(safeArea);
     }
 
-    Rect GetSafeArea()
+    private Rect GetSafeArea()
     {
         return Screen.safeArea;
     }
 
-    void ApplySafeArea(Rect r)
+    private void ApplySafeArea(Rect r)
     {
         LastSafeArea = r;
 
-        // Convert safe area rectangle from absolute pixels to normalised anchor coordinates
+        // Convert safe area rectangle from absolute pixels to normalized anchor coordinates
         Vector2 anchorMin = r.position;
         Vector2 anchorMax = r.position + r.size;
         anchorMin.x /= Screen.width;
-        anchorMin.y /= Screen.height;
+        //anchorMin.y /= Screen.height;
+        anchorMin.y = 0; // we don't want a bottom safe zone for I&N app
         anchorMax.x /= Screen.width;
         anchorMax.y /= Screen.height;
-
-        anchorMin.x = 0; //disable bottom safe zone
-
+        
         Panel.anchorMin = anchorMin;
         Panel.anchorMax = anchorMax;
 
