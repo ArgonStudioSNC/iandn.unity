@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class BackEventScript : MonoBehaviour
 {
+    public Transform popup;
+
     private AndroidJavaObject m_activity;
     private ScreenManager m_screenManager;
 
@@ -26,13 +28,10 @@ public class BackEventScript : MonoBehaviour
 
     public void GoBack()
     {
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-
         if (m_screenManager == null)
         {
 #if UNITY_IOS
-            PlayerPrefs.DeleteKey("logged");
-            SceneManager.LoadSceneAsync(sceneIndex - 1);
+            popup.gameObject.SetActive(true);
 #else
             m_activity.Call<bool>("moveTaskToBack", true);
             return;
@@ -48,14 +47,22 @@ public class BackEventScript : MonoBehaviour
             else
             {
 #if UNITY_IOS
-                PlayerPrefs.DeleteKey("logged");
-                SceneManager.LoadSceneAsync(0);
+                popup.gameObject.SetActive(true);
 #else
                 m_activity.Call<bool>("moveTaskToBack", true);
                 return;
 #endif
             }
         }
+    }
+
+    public void GoBackHard()
+    {
+#if UNITY_IOS
+        PlayerPrefs.DeleteKey("logged");
+        SceneManager.LoadSceneAsync(0);
+
+#endif
     }
 
     private IEnumerator LoadYourAsyncScene(string sceneName)

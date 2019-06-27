@@ -108,9 +108,10 @@ public class InscriptionScript : MonoBehaviour
 
     private string buildMail()
     {
-        string message = "<div>De nouvelles personnes se sont inscrits au mariage (acces <span style=\"color:red;\">";
-        message += m_hasAccessToMeal ? "souper" : "apero";
-        message += "</span>)</div>";
+
+        string message = "<!DOCTYPE html><html lang='fr'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='x-apple-disable-message-reformatting'><title>I&N</title><style> span {color : red; }</style></head><body><p>De nouvelles personnes se sont inscrites au mariage (accès <span style=\'color:red;\'>";
+        message += m_hasAccessToMeal ? "souper" : "apéro";
+        message += "</span>)</p>";
 
         foreach (Transform invite in mInviteContainer)
         {
@@ -123,14 +124,14 @@ public class InscriptionScript : MonoBehaviour
                 throw new MissingFieldException("Prénom et Nom requis");
             }
 
-            message = string.Concat(message, "<p><div><b>", participe ? "Vient au mariage" : "Ne vient pas au mariage", "</b></div>");
-            message += "<div style=\"color:red;\">";
+            message = string.Concat(message, "<p><b>", participe ? "Vient au mariage" : "Ne vient pas au mariage", "</b><br>");
+            message += "<span>";
             message = string.Concat(message, prenom, " ");
-            message = string.Concat(message, nom, "</div>");
+            message = string.Concat(message, nom, "</span><br>");
 
             if (participe && m_hasAccessToMeal)
             {
-                message = string.Concat(message, "<div style=\"color:red;\">", invite.FindObjectsWithTag("MenuToggle").LastOrDefault().GetComponent<ToggleGroup>().ActiveToggles().First().GetComponentInChildren<Text>().text, "</div>");
+                message = string.Concat(message, "<span>", invite.FindObjectsWithTag("MenuToggle").LastOrDefault().GetComponent<ToggleGroup>().ActiveToggles().First().GetComponentInChildren<Text>().text, "</span>");
             }
 
             message = string.Concat(message, "</p>");
@@ -141,10 +142,11 @@ public class InscriptionScript : MonoBehaviour
         {
             throw new MissingFieldException("Email requis");
         }
-        message = string.Concat(message, "<p><div>Email: <span style=\"color:red;\">", email, "</span></div></p>");
+        message = string.Concat(message, "<p>Email: ", email, "</p>");
 
         string remarques = transform.FindObjectsWithTag("RemarquesField").LastOrDefault().GetComponent<Text>().text;
-        message = string.Concat(message, "<p><div>Remarques: <span style=\"color:red;\">", remarques, "</span></div></p>");
+        message = string.Concat(message, "<p>Remarques: <span>", remarques, "</span></p>");
+        message = string.Concat(message, "</body></html>");
 
         return message;
     }

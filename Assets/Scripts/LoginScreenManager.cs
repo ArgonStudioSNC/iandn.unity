@@ -27,7 +27,7 @@ public class LoginScreenManager : MonoBehaviour
 
     protected void OnDestroy()
     {
-        videoPlayer.Stop();
+        if (videoPlayer) videoPlayer.Stop();
     }
 
     public void CheckCode()
