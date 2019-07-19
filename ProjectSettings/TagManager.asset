@@ -10,6 +10,8 @@ TagManager:
   - RemarquesField
   - PresenceToggle
   - EmailField
+  - UsernameField
+  - CommentField
   layers:
   - Default
   - TransparentFX
