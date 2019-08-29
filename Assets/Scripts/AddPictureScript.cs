@@ -45,6 +45,10 @@ public class AddPictureScript : MonoBehaviour
         {
             NativeCamera.TakePicture(GetPictureCallback);
         }
+        else
+        {
+            AlertPrefab.LaunchAlert("L'application n'est pas autorisée à acceder à l'appareil photo.");
+        }
     }
 
     public void GetPictureFromMemory()
@@ -62,6 +66,10 @@ public class AddPictureScript : MonoBehaviour
                 NativeGallery.RequestPermission() == NativeGallery.Permission.Granted)
         {
             NativeGallery.GetImageFromGallery(GetPictureCallback, "Sélectionnez une image");
+        }
+        else
+        {
+            AlertPrefab.LaunchAlert("L'application n'est pas autorisée à acceder à la mémoire externe");
         }
     }
 
@@ -101,7 +109,7 @@ public class AddPictureScript : MonoBehaviour
     private IEnumerator DelayedBack()
     {
         yield return new WaitForSeconds(1.5f);
-        FindObjectOfType<InstagramScript>().Refresh();
+        FindObjectOfType<PaparazziScript>().Refresh();
         FindObjectOfType<BackEventScript>().GoBack();
     }
 

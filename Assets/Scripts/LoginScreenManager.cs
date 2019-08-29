@@ -8,7 +8,6 @@ using UnityEngine.Video;
 public class LoginScreenManager : MonoBehaviour
 {
     public TextAsset credentialsFile;
-    public Text errorText;
     public Transform logo;
     public Transform login;
     public Button accessButton;
@@ -38,18 +37,19 @@ public class LoginScreenManager : MonoBehaviour
         if (code.Equals(credentials["code-apero"]))
         {
             PlayerPrefs.SetInt("logged", 1);
+            AlertPrefab.LaunchAlert("Code valide.");
             AccessApp();
         }
         else if (code.Equals(credentials["code-souper"]))
         {
             PlayerPrefs.SetInt("souper", 1);
             PlayerPrefs.SetInt("logged", 1);
+            AlertPrefab.LaunchAlert("Code valide.");
             AccessApp();
         }
         else
         {
-            errorText.text = "Code non valide";
-            ResetError(2);
+            AlertPrefab.LaunchAlert("Ce code n'est pas valide.");
         }
     }
 
@@ -122,12 +122,6 @@ public class LoginScreenManager : MonoBehaviour
         {
             yield return null;
         } while (vp.isPlaying);
-    }
-
-    private IEnumerator ResetError(int time)
-    {
-        yield return new WaitForSeconds(time);
-        errorText.text = "";
     }
 }
 

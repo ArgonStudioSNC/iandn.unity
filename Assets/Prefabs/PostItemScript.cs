@@ -29,11 +29,7 @@ public class PostItemScript : MonoBehaviour
         downloadButton.interactable = false;
         StartCoroutine(ImageDownloader.GetBytesAsync(new Uri("https://iandn.app/instagram/" + m_post.id + "/p"), (file, message) =>
         {
-            if (file == null)
-            {
-                AlertPrefab.LaunchAlert(message);
-                downloadButton.interactable = true;
-            }
+            if (file == null) AlertPrefab.LaunchAlert(message);
             else
             {
                 if (NativeGallery.IsMediaPickerBusy())
@@ -46,7 +42,9 @@ public class PostItemScript : MonoBehaviour
                 if (NativeGallery.CheckPermission() == NativeGallery.Permission.Granted) SavePicture(file);
                 else if (NativeGallery.CheckPermission() == NativeGallery.Permission.ShouldAsk &&
                         NativeGallery.RequestPermission() == NativeGallery.Permission.Granted) SavePicture(file);
+                else AlertPrefab.LaunchAlert("L'application n'est pas autorisée à acceder à la mémoire externe.");
             }
+            downloadButton.interactable = true;
         }));
     }
 
@@ -57,8 +55,6 @@ public class PostItemScript : MonoBehaviour
             if (callback == null) AlertPrefab.LaunchAlert("La photo de \"" + m_post.username + "\" a été ajoutée à votre galerie.");
 
             else AlertPrefab.LaunchAlert("Échec de l'enregistrement. I&N a t'elle accès au stockage externe?");
-
-            downloadButton.interactable = true;
         });
     }
 

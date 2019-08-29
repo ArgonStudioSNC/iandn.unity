@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -31,6 +32,17 @@ public class GuestScript : MonoBehaviour
         }
     }
 
+    [Serializable]
+    internal class GuestList
+    {
+        public List<Guest> guests;
+
+        public GuestList(List<Guest> guests)
+        {
+            this.guests = guests;
+        }
+    }
+
     public Text fullname;
     public Text description;
 
@@ -42,6 +54,8 @@ public class GuestScript : MonoBehaviour
 
     private RawImage m_rawImage;
     private Button m_button;
+
+    private GuestList m_guests;
 
     protected void Awake()
     {
@@ -57,7 +71,7 @@ public class GuestScript : MonoBehaviour
         }
         else
         {
-            StartCoroutine(GetRandomGuestCoroutine());
+            StartCoroutine(GetNextGuestCoroutine());
         }
     }
 
@@ -95,7 +109,7 @@ public class GuestScript : MonoBehaviour
             m_currentGuest = m_nextGuest;
 
             m_currentState = LoadingState.Downloading;
-            StartCoroutine(GetRandomGuestCoroutine());
+            StartCoroutine(GetNextGuestCoroutine());
 
             fullname.text = m_currentGuest.fullname;
             description.text = m_currentGuest.description;
@@ -110,13 +124,13 @@ public class GuestScript : MonoBehaviour
     private IEnumerator Startup()
     {
         m_currentState = LoadingState.Downloading;
-        yield return StartCoroutine(GetRandomGuestCoroutine());
+        yield return StartCoroutine(GetNextGuestCoroutine());
         if (m_currentState == LoadingState.Success) NextGuest();
     }
 
-    private IEnumerator GetRandomGuestCoroutine()
+    private IEnumerator GetNextGuestCoroutine()
     {
-        Uri uri = new Uri("https://www.iandn.app/guest/random/");
+        Uri uri = new Uri("https://www.iandn.app/guest/d/");
 
         using (www = UnityWebRequest.Get(uri))
         {
@@ -130,33 +144,47 @@ public class GuestScript : MonoBehaviour
             }
             else
             {
-                Guest guest = JsonUtility.FromJson<Guest>(www.downloadHandler.text);
-                if (m_currentGuest != null && guest.id == m_currentGuest.id)
-                {
-                    yield return StartCoroutine(GetRandomGuestCoroutine());
-                }
-                else
-                {
-                    m_nextGuest = guest;
+                m_guests = JsonUtility.FromJson<GuestList>("{\"guests\":" + www.downloadHandler.text + "}");
 
-                    string picturePath = @"/guests/" + m_nextGuest.picture_name;
-                    Uri pictureUri = new Uri("https://www.iandn.app/guest/" + m_nextGuest.id + "/p/");
+                m_nextGuest = NextUnseenGuest();
+                string picturePath = @"/guests/" + m_nextGuest.picture_name;
+                Uri pictureUri = new Uri("https://www.iandn.app/guest/" + m_nextGuest.id + "/p/");
 
-                    yield return StartCoroutine(ImageDownloader.GetTextureAsync(picturePath, pictureUri, (texture, message) =>
+                yield return StartCoroutine(ImageDownloader.GetTextureAsync(picturePath, pictureUri, (texture, message) =>
+                {
+                    if (!texture)
                     {
-                        if (!texture)
-                        {
-                            AlertPrefab.LaunchAlert(message);
-                            m_currentState = LoadingState.Error;
-                        }
-                        else
-                        {
-                            m_nextGuest.picture = texture;
-                            m_currentState = LoadingState.Success;
-                        }
-                    }));
-                }
+                        AlertPrefab.LaunchAlert(message);
+                        m_currentState = LoadingState.Error;
+                    }
+                    else
+                    {
+                        m_nextGuest.picture = texture;
+                        m_currentState = LoadingState.Success;
+                    }
+                }));
+
             }
         }
+    }
+
+    private Guest NextUnseenGuest()
+    {
+        string key = "guest_id";
+        if (!PlayerPrefs.HasKey(key)) PlayerPrefs.SetInt(key, 0);
+        int currentID = PlayerPrefs.GetInt(key);
+
+        foreach (Guest guest in m_guests.guests)
+        {
+            if (guest.id > currentID)
+            {
+                PlayerPrefs.SetInt(key, (int)guest.id);
+                return guest;
+            }
+        }
+
+        PlayerPrefs.SetInt(key, 0);
+
+        return NextUnseenGuest();
     }
 }

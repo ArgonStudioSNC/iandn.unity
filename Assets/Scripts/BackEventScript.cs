@@ -30,7 +30,7 @@ public class BackEventScript : MonoBehaviour
     {
         if (m_screenManager == null)
         {
-#if UNITY_IOS
+#if UNITY_IOS || UNITY_EDITOR
             popup.gameObject.SetActive(true);
 #else
             m_activity.Call<bool>("moveTaskToBack", true);
@@ -46,7 +46,7 @@ public class BackEventScript : MonoBehaviour
             }
             else
             {
-#if UNITY_IOS
+#if UNITY_IOS || UNITY_EDITOR
                 popup.gameObject.SetActive(true);
 #else
                 m_activity.Call<bool>("moveTaskToBack", true);
@@ -58,10 +58,9 @@ public class BackEventScript : MonoBehaviour
 
     public void GoBackHard()
     {
-#if UNITY_IOS
+#if UNITY_IOS || UNITY_EDITOR
         PlayerPrefs.DeleteKey("logged");
         SceneManager.LoadSceneAsync(0);
-
 #endif
     }
 

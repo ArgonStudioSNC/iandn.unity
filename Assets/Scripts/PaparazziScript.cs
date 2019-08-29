@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using UnityEngine.UI;
 
-public class InstagramScript : MonoBehaviour
+public class PaparazziScript : MonoBehaviour
 {
     public MyScrollRect myScrollRect;
     public Transform scrollContent;
@@ -119,7 +119,7 @@ public class InstagramScript : MonoBehaviour
 
     private IEnumerator RefreshFluxAsync()
     {
-        Uri uri = new Uri("https://www.iandn.app/instagram/d/");
+        Uri uri = new Uri("https://www.iandn.app/paparazzi/d/");
         using (www = UnityWebRequest.Get(uri))
         {
             yield return www.SendWebRequest();
@@ -152,7 +152,7 @@ public class InstagramScript : MonoBehaviour
 
     private void LoadPost(Post post)
     {
-        StartCoroutine(ImageDownloader.GetTextureAsync(@"/posts/" + post.picture_name, new Uri("https://iandn.app/instagram/" + post.id + "/p/thumb"), (texture, message) =>
+        StartCoroutine(ImageDownloader.GetTextureAsync(@"/posts/" + post.picture_name, new Uri("https://iandn.app/paparazzi/" + post.id + "/p/thumb"), (texture, message) =>
           {
               if (!texture)
               {

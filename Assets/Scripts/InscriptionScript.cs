@@ -7,12 +7,10 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using System;
-using System.Collections;
 
 public class InscriptionScript : MonoBehaviour
 {
     public Text participantsNumberText;
-    public Text errorText;
     public Transform inviteSection;
     public int maxParticipants;
     public TextAsset credentialsFile;
@@ -96,13 +94,11 @@ public class InscriptionScript : MonoBehaviour
         catch (MissingFieldException e)
         {
             Debug.Log(e);
-            errorText.text = e.Message;
-            StartCoroutine(ResetError(2));
+            AlertPrefab.LaunchAlert(e.Message);
         }
         catch (SmtpException e)
         {
-            errorText.text = "Echec de l'envoi (" + e.StatusCode.ToString() + ")";
-            StartCoroutine(ResetError(2));
+            AlertPrefab.LaunchAlert("Echec de l'envoi (" + e.StatusCode.ToString() + ")");
         }
     }
 
@@ -153,6 +149,7 @@ public class InscriptionScript : MonoBehaviour
 
     private void sendMail(string recipient, string subject, string body)
     {
+        AlertPrefab.LaunchAlert("Inscription en cours d'envoi.");
         MailMessage mail = new MailMessage();
 
         Dictionary<string, string> credentials = CredentialsHelper.GetDictionary(credentialsFile);
@@ -173,12 +170,6 @@ public class InscriptionScript : MonoBehaviour
             { return true; };
         smtpServer.Send(mail);
         Debug.Log("success");
-    }
-
-    private IEnumerator ResetError(int time)
-    {
-        yield return new WaitForSeconds(time);
-        errorText.text = "";
     }
 
     private void checkIfSubscribed()
