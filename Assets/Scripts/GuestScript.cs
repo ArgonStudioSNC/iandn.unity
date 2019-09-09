@@ -56,6 +56,7 @@ public class GuestScript : MonoBehaviour
     private Button m_button;
 
     private GuestList m_guests;
+    private string key = "last_seen_guest";
 
     protected void Awake()
     {
@@ -111,6 +112,7 @@ public class GuestScript : MonoBehaviour
             m_currentState = LoadingState.Downloading;
             StartCoroutine(GetNextGuestCoroutine());
 
+            PlayerPrefs.SetInt(key, (int)m_currentGuest.id);
             fullname.text = m_currentGuest.fullname;
             description.text = m_currentGuest.description;
             m_rawImage.texture = m_currentGuest.picture;
@@ -170,19 +172,18 @@ public class GuestScript : MonoBehaviour
 
     private Guest NextUnseenGuest()
     {
-        string key = "guest_id";
-        if (!PlayerPrefs.HasKey(key)) PlayerPrefs.SetInt(key, 0);
+        if (!PlayerPrefs.HasKey(key))
+        {
+            PlayerPrefs.SetInt(key, 0);
+        }
         int currentID = PlayerPrefs.GetInt(key);
-
         foreach (Guest guest in m_guests.guests)
         {
             if (guest.id > currentID)
             {
-                PlayerPrefs.SetInt(key, (int)guest.id);
                 return guest;
             }
         }
-
         PlayerPrefs.SetInt(key, 0);
 
         return NextUnseenGuest();
