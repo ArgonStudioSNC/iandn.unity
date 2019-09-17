@@ -7,6 +7,14 @@ using UnityEngine.UI;
 
 public class QuizzScript : MonoBehaviour
 {
+    private static readonly string[] RESULT_TEXTS = new string[] {
+        "Ah voilà… Vous être sûr que vous êtes au bon endroit, au mariage de Nicolas et Delphine?!",
+        "Nathan (qui, on vous le dit, est architecte) ne vous fera pas un dessin, ce n’est pas brillant...",
+        "Aïe, vous ne connaissez pas bien les mariés. En même temps, ce n’est pas de votre faute s’ils ne vous invitent jamais à manger chez eux...",
+        "Pas si mal. Même si vous avez sûrement eu votre dose de chance sur certaines questions, les mariés seraient fiers de vous.",
+        "Joli! Soit vous connaissez parfaitement nos mariés, soit vous avez (très bien) répondu au hasard. Il y a des tribolos au kiosque du coin, si jamais.",
+        "Isabel, Nathan! Il vous était interdit de répondre vous-mêmes au quiz!"
+    };
 
     public enum LoadingState
     {
@@ -161,9 +169,19 @@ public class QuizzScript : MonoBehaviour
 
     private void EnableEndOfQuizzPanel(bool val)
     {
-        string score = "Vous avez donné\n\n" + QuizzScore + " / " + m_quizz.questions.Count + "\n\nbonnes réponses !";
+        if (val)
+        {
+            int score = QuizzScore;
+            string endofquizzText = "Vous avez donné " + score + "  bonnes réponses sur  " + m_quizz.questions.Count + " questions\n\n";
+            if (score <= 2) endofquizzText = string.Concat(endofquizzText, RESULT_TEXTS[0]);
+            else if (score <= 5) endofquizzText = string.Concat(endofquizzText, RESULT_TEXTS[1]);
+            else if (score <= 8) endofquizzText = string.Concat(endofquizzText, RESULT_TEXTS[2]);
+            else if (score <= 11) endofquizzText = string.Concat(endofquizzText, RESULT_TEXTS[3]);
+            else if (score <= 14) endofquizzText = string.Concat(endofquizzText, RESULT_TEXTS[4]);
+            else if (score > 14) endofquizzText = string.Concat(endofquizzText, RESULT_TEXTS[5]);
+            endOfQuizzPanel.GetComponentInChildren<Text>().text = endofquizzText;
+        }
 
-        endOfQuizzPanel.GetComponentInChildren<Text>().text = score;
         endOfQuizzPanel.gameObject.SetActive(val);
     }
 

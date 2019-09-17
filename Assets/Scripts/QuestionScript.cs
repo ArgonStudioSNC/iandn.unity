@@ -8,6 +8,7 @@ public class QuestionScript : MonoBehaviour
     public Transform questionTransform;
     public Transform[] answersTransform;
     public Transform nextQuestionTransform;
+    public Animator animator;
 
 
     private bool m_canAnswer;
@@ -16,7 +17,7 @@ public class QuestionScript : MonoBehaviour
 
     private Color m_grey = new Color32(0, 0, 0, 100);
     private Color m_green = new Color32(75, 93, 64, 255);
-    private Color m_red = new Color32(135, 19, 13, 160);
+    private Color m_red = new Color32(135, 19, 13, 220);
 
 
     protected void Awake()
@@ -47,6 +48,7 @@ public class QuestionScript : MonoBehaviour
 
         nextQuestionTransform.gameObject.SetActive(false);
 
+        animator.SetBool("canAnswer", true);
         m_canAnswer = true;
     }
 
@@ -54,6 +56,7 @@ public class QuestionScript : MonoBehaviour
     {
         if (!m_canAnswer) return;
         m_canAnswer = false;
+        animator.SetBool("canAnswer", false);
 
         m_quizz.AnswerQuestion(answerID == m_rightAnswerID);
 
