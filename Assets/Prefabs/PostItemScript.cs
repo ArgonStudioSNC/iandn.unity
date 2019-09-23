@@ -27,7 +27,7 @@ public class PostItemScript : MonoBehaviour
     public void DownloadPicture()
     {
         downloadButton.interactable = false;
-        StartCoroutine(ImageDownloader.GetBytesAsync(new Uri("https://iandn.app/instagram/" + m_post.id + "/p"), (file, message) =>
+        StartCoroutine(ImageDownloader.GetBytesAsync(new Uri("https://iandn.app/paparazzi/" + m_post.id + "/p"), (file, message) =>
         {
             if (file == null) AlertPrefab.LaunchAlert(message);
             else
@@ -65,22 +65,22 @@ public class PostItemScript : MonoBehaviour
 
         if (timeSpan.Days != 0)
         {
-            stringBuilder = "il y à " + timeSpan.Days;
+            stringBuilder = "il y a " + timeSpan.Days;
             stringBuilder += timeSpan.Days == 1 ? " jour" : " jours";
         }
         else if (timeSpan.Hours != 0)
         {
-            stringBuilder = "il y à " + timeSpan.Hours;
+            stringBuilder = "il y a " + timeSpan.Hours;
             stringBuilder += timeSpan.Hours == 1 ? " heure" : " heures";
         }
         else if (timeSpan.Minutes != 0)
         {
-            stringBuilder = "il y à " + timeSpan.Minutes;
+            stringBuilder = "il y a " + timeSpan.Minutes;
             stringBuilder += timeSpan.Minutes == 1 ? " minute" : " minutes";
         }
         else if (timeSpan.Seconds != 0 && timeSpan.Seconds > 10)
         {
-            stringBuilder = "il y à " + timeSpan.Seconds;
+            stringBuilder = "il y a " + timeSpan.Seconds;
             stringBuilder += timeSpan.Seconds == 1 ? " seconde" : " secondes";
         }
         else

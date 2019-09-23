@@ -91,7 +91,7 @@ public class AddPictureScript : MonoBehaviour
         if (comment != "") formData.Add(new MultipartFormDataSection("comment", comment));
         formData.Add(new MultipartFormFileSection("picture", File.ReadAllBytes(m_picturePath), "", NativeCamera.GetImageProperties(m_picturePath).mimeType));
 
-        StartCoroutine(PublishCoroutine(new Uri("https://iandn.app/instagram/add"), formData, (callback, message) =>
+        StartCoroutine(PublishCoroutine(new Uri("https://iandn.app/paparazzi/add"), formData, (callback, message) =>
         {
             if (!callback)
             {
