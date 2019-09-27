@@ -100,6 +100,7 @@ public class AddPictureScript : MonoBehaviour
             }
             else
             {
+                PlayerPrefs.SetInt("hasPosted", 1);
                 AlertPrefab.LaunchAlert(message);
                 StartCoroutine(DelayedBack());
             }

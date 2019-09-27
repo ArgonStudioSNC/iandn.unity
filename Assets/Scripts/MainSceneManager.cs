@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crystal;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,12 @@ public class MainSceneManager : MonoBehaviour
 
     protected void Start()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Screen.fullScreen = false;
+#elif UNITY_IOS && !UNITY_EDITOR
+        FindObjectOfType<SafeArea>().enabled = true;
+        if (Screen.safeArea.y > 0) StatusBarManager.Show(true);
+#endif
         m_screenManager = FindObjectOfType<ScreenManager>();
         m_homeScreen = mainMenu.parent;
         m_text = navbar.Find("TitleText").GetComponent<Text>();
@@ -49,6 +56,16 @@ public class MainSceneManager : MonoBehaviour
         {
             m_backButton.gameObject.SetActive(true);
         }
+#endif
+    }
+
+    protected void OnDestroy()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Screen.fullScreen = true;
+#elif UNITY_IOS && !UNITY_EDITOR
+        FindObjectOfType<SafeArea>().enabled = false;
+        StatusBarManager.Show(false);
 #endif
     }
 
