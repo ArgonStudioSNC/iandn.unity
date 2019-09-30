@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Argon Studio
-  productName: Ils se marient
+  productName: I&N
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.406
+  bundleVersion: 1.4(07)
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -168,8 +168,8 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: com.argonstudio.ilssemarient
   buildNumber:
-    iPhone: 210010406
-  AndroidBundleVersionCode: 210010406
+    iPhone: 210010407
+  AndroidBundleVersionCode: 210010407
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -524,9 +524,9 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: Capture media with camera
+  cameraUsageDescription: "Requise pour capturer les images \xE0 poster sur Paparazzi"
   locationUsageDescription: 
-  microphoneUsageDescription: Capture microphone input in videos
+  microphoneUsageDescription: 
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144
   switchSocketAllocatorPoolSize: 128
