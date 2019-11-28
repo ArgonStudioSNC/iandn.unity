@@ -83,11 +83,4 @@ public class MainSceneManager : MonoBehaviour
         value += duration.Seconds + " s";
         return value;
     }
-
-
-    // temporaire : bloque l'accès aux photos
-    public void LaunchAlert(string s)
-    {
-        AlertPrefab.LaunchAlert(s);
-    }
 }

@@ -11,7 +11,6 @@ public class BackEventScript : MonoBehaviour
 
     protected void Start()
     {
-        m_activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
         m_screenManager = FindObjectOfType<ScreenManager>();
     }
 
