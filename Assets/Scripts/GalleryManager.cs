@@ -31,8 +31,7 @@ public class GalleryManager : MonoBehaviour
     public enum LoadingState
     {
         Idle,
-        Processing,
-        Downloading,
+        Loading,
         Error
     }
 
@@ -51,13 +50,7 @@ public class GalleryManager : MonoBehaviour
             case LoadingState.Idle:
                 break;
 
-            case LoadingState.Processing:
-            case LoadingState.Downloading:
-                if (!m_loader)
-                {
-                    m_loader = Instantiate(loaderPrefab, mainCanvas);
-                    m_loader.GetComponent<LoadingSpinScript>().StartWaitingScreen();
-                }
+            case LoadingState.Loading:
                 break;
 
             case LoadingState.Error:
@@ -72,10 +65,12 @@ public class GalleryManager : MonoBehaviour
 
     public void StopLoader()
     {
+        Debug.Log("Stoping the loader");
+        m_currentState = LoadingState.Idle;
         if (m_loader)
         {
             m_loader.GetComponent<LoadingSpinScript>().StopWaitingScreen();
-            m_currentState = LoadingState.Idle;
+            m_loader = null;
         }
     }
 
@@ -97,6 +92,7 @@ public class GalleryManager : MonoBehaviour
         }
         else
         {
+            StartLoader();
             LoadGallerySubroutine();
         }
     }
@@ -104,21 +100,19 @@ public class GalleryManager : MonoBehaviour
 
     public IEnumerator LoadAlbumAsync(int albumIndex, Action<Album, string> callback)
     {
-        m_currentState = LoadingState.Processing;
+        StartLoader();
         if (gallery == null)
         {
             yield return null;
-            LoadGallerySubroutine();
+            callback(null, "Erreur. La galerie ne semble pas chargée.");
         }
 
-        m_currentState = LoadingState.Processing;
         if (gallery.albums[albumIndex].IsAlbumLoaded)
         {
             callback(gallery.albums[albumIndex], "L'album a été chargé depuis la mémoire.");
         }
         else
         {
-            m_currentState = LoadingState.Downloading;
             Uri uri = new Uri("https://www.iandn.app/photo/album/" + albumIndex + "/zip/");
 
             using (www = UnityWebRequest.Get(uri))
@@ -137,7 +131,6 @@ public class GalleryManager : MonoBehaviour
                     byte[] zipFileData = www.downloadHandler.data;
                     string zipFilePath = Path.GetFileNameWithoutExtension(gallery.albums[albumIndex].zip_name) + "/";
 
-                    m_currentState = LoadingState.Processing;
                     using (MemoryStream albumFileStream = new MemoryStream())
                     {
                         albumFileStream.Write(zipFileData, 0, zipFileData.Length);
@@ -164,15 +157,25 @@ public class GalleryManager : MonoBehaviour
                         }
                     }
 
+                    gallery.albums[albumIndex].IsAlbumLoaded = true;
                     callback(gallery.albums[albumIndex], "L'album a été téléchargé.");
                 }
             }
         }
     }
 
+    private void StartLoader()
+    {
+        if (m_currentState == LoadingState.Idle)
+        {
+            Debug.Log("Starting the loader");
+            m_currentState = LoadingState.Loading;
+            m_loader = Instantiate(loaderPrefab, mainCanvas);
+        }
+    }
+
     private void LoadGallerySubroutine()
     {
-        m_currentState = LoadingState.Downloading;
         StartCoroutine(LoadGalleryAsync((tmpGallery, message) =>
         {
             if (tmpGallery == null)
@@ -183,11 +186,10 @@ public class GalleryManager : MonoBehaviour
             else
             {
                 gallery = tmpGallery;
+                m_threadsFinishedCount = 0;
+                StartCoroutine(JoinLoadersCoroutine(gallery.albums.Count));
                 foreach (Album album in gallery.albums)
                 {
-                    m_threadsFinishedCount = 0;
-                    StartCoroutine(JoinLoadersCoroutine(gallery.albums.Count));
-
                     StartCoroutine(ImageDownloader.GetTextureAsync(@"/covers/" + album.cover_name, new Uri("https://iandn.app/photo/album/" + album.id + "/p/"), (texture, innerMessage) =>
                     {
                         if (!texture)
@@ -233,12 +235,13 @@ public class GalleryManager : MonoBehaviour
 
     private IEnumerator JoinLoadersCoroutine(int nbThreads)
     {
-        while (m_threadsFinishedCount < nbThreads)
+        do
         {
             yield return new WaitForSeconds(0.3f);
-        }
-        AlertPrefab.LaunchAlert("Votre galerie photos est à jour.");
+        } while (m_threadsFinishedCount < nbThreads);
+
         StopLoader();
+        AlertPrefab.LaunchAlert("Votre galerie photos est à jour.");
         m_screenManager.OpenPanel(m_photosAlbumAnimator);
     }
 

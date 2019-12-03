@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -1173,7 +1174,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<link=mailto:nboder@gmail.com>nboder@gmail.com </link>
 
-    <link=tel:+41792578747>079 257 87 47</link>'
+    <link=tel:+41792578747>079
+    257 87 47</link>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a354926f24fbd3a4887212a5023c36ef, type: 2}
   m_sharedMaterial: {fileID: 6182651431847500833, guid: a354926f24fbd3a4887212a5023c36ef,
@@ -4253,9 +4255,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "De retour avec des \xE9toiles plein les yeux (mais sans un sou sur le compte
-    en banque), il est l'heure de d\xE9marrer la vie active. Ou sa bo\xEEte, \xE0
-    choix. Elle dans l'humanitaire \xE0 Lausanne, lui entrepreneur \xE0 Bienne."
+  m_Text: "De retour avec des \xE9toiles plein les yeux (mais sans un sou sur le
+    compte en banque), il est l'heure de d\xE9marrer la vie active. Ou sa bo\xEEte,
+    \xE0 choix. Elle dans l'humanitaire \xE0 Lausanne, lui entrepreneur \xE0 Bienne."
 --- !u!222 &177775336
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4882,7 +4884,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<link=mailto:isabel.zbinden@gmail.com>isabel.zbinden@gmail.com</link>
 
-    <link=tel:+41764260551>076 426 05 51</link>'
+    <link=tel:+41764260551>076
+    426 05 51</link>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a354926f24fbd3a4887212a5023c36ef, type: 2}
   m_sharedMaterial: {fileID: 6182651431847500833, guid: a354926f24fbd3a4887212a5023c36ef,
@@ -15213,8 +15216,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Mais le meilleur reste \xE0 venir, et la suite s'approche \xE0 grands pas.
-    Nous serions ravis que vous en fassiez partie!"
+  m_Text: "Mais le meilleur reste \xE0 venir, et la suite s'approche \xE0 grands
+    pas. Nous serions ravis que vous en fassiez partie!"
 --- !u!222 &544250404
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16605,8 +16608,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Le baron des costards est disponible au <link=tel:+41793177184>079 317
-    71 84</link>\r\n<link=mailto:vince.rochat@gmail.com>vince.rochat@gmail.com</link>"
+  m_text: 'Le baron des costards est disponible au <link=tel:+41793177184>079 317
+    71 84</link>
+
+    <link=mailto:vince.rochat@gmail.com>vince.rochat@gmail.com</link>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a354926f24fbd3a4887212a5023c36ef, type: 2}
   m_sharedMaterial: {fileID: 6182651431847500833, guid: a354926f24fbd3a4887212a5023c36ef,
@@ -22990,7 +22995,6 @@ GameObject:
   - component: {fileID: 882081167}
   - component: {fileID: 882081169}
   - component: {fileID: 882081168}
-  - component: {fileID: 882081170}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -23057,18 +23061,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882081166}
   m_CullTransparentMesh: 0
---- !u!114 &882081170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 882081166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63de5b7a7b675b94cb6dfa24b7935181, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &882799035
 GameObject:
   m_ObjectHideFlags: 0
@@ -23369,7 +23361,8 @@ MonoBehaviour:
 
     Rue de Boujean 123
 
-    2504 Bienne'
+    2504
+    Bienne'
 --- !u!222 &886815563
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23913,10 +23906,10 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Ils tra\xEEnent pas mal de casseroles et sont d\xE9j\xE0 bien outill\xE9s.
-    Votre pr\xE9sence suffira \xE0 les rendre heureux! Si vous souhaitez tout de m\xEAme
-    contribuer \xE0 un joli projet, Isabel et Nathan s'en iront explorer le sud de
-    l'Afrique, avec une petite escale aux Seychelles, pour leur voyage de noces.\n\nIsabel
-    Zbinden & Nathan Boder\nRue de Boujean 123\n2504 Bienne"
+    Votre pr\xE9sence suffira \xE0 les rendre heureux! Si vous souhaitez tout de
+    m\xEAme contribuer \xE0 un joli projet, Isabel et Nathan s'en iront explorer
+    le sud de l'Afrique, avec une petite escale aux Seychelles, pour leur voyage
+    de noces.\n\nIsabel Zbinden & Nathan Boder\nRue de Boujean 123\n2504 Bienne"
 --- !u!222 &902200591
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27650,6 +27643,7 @@ GameObject:
   - component: {fileID: 1032743557}
   - component: {fileID: 1032743559}
   - component: {fileID: 1032743558}
+  - component: {fileID: 1032743560}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -27716,6 +27710,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032743556}
   m_CullTransparentMesh: 0
+--- !u!114 &1032743560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032743556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63de5b7a7b675b94cb6dfa24b7935181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1033020187
 GameObject:
   m_ObjectHideFlags: 0
@@ -29086,6 +29092,79 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108905014}
+  m_CullTransparentMesh: 0
+--- !u!1 &1121340443
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1121340444}
+  - component: {fileID: 1121340446}
+  - component: {fileID: 1121340445}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1121340444
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121340443}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2060172954}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1121340445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121340443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.29411766, g: 0.3647059, b: 0.2509804, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: fada2c7c47fc01b4ab265d7b42b38692, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1121340446
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121340443}
   m_CullTransparentMesh: 0
 --- !u!1 &1121602504
 GameObject:
@@ -30732,7 +30811,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
@@ -32340,7 +32419,6 @@ GameObject:
   - component: {fileID: 1218557075}
   - component: {fileID: 1218557077}
   - component: {fileID: 1218557076}
-  - component: {fileID: 1218557078}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -32407,18 +32485,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218557074}
   m_CullTransparentMesh: 0
---- !u!114 &1218557078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218557074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63de5b7a7b675b94cb6dfa24b7935181, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1220022495
 GameObject:
   m_ObjectHideFlags: 0
@@ -35960,8 +36026,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "L'as du snowboard se fait contacter au <link=tel:+41794843372>079 484 33
-    72</link>\r\n<link=mailto:valentin.schweizer@gmail.com>valentin.schweizer@gmail.com</link>"
+  m_text: 'L''as du snowboard se fait contacter au <link=tel:+41794843372>079 484
+    33 72</link>
+
+    <link=mailto:valentin.schweizer@gmail.com>valentin.schweizer@gmail.com</link>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a354926f24fbd3a4887212a5023c36ef, type: 2}
   m_sharedMaterial: {fileID: 6182651431847500833, guid: a354926f24fbd3a4887212a5023c36ef,
@@ -38743,9 +38811,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Etudes obligent, ils d\xE9m\xE9nagent \xE0 Fribourg, dans le quartier du
-    Sch\xF6nberg (\xE9quivalent du 9-3 parisien). Un chouette appartement qui deviendra
-    le QG de nombreux ap\xE9ros."
+  m_Text: "Etudes obligent, ils d\xE9m\xE9nagent \xE0 Fribourg, dans le quartier
+    du Sch\xF6nberg (\xE9quivalent du 9-3 parisien). Un chouette appartement qui
+    deviendra le QG de nombreux ap\xE9ros."
 --- !u!222 &1427810312
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -41844,6 +41912,12 @@ MonoBehaviour:
   draggablePanel: {fileID: 1183419131}
   fullScreenPhotoPrefab: {fileID: 8913624347991854661, guid: b7e7b1400a1b46d47b08ad3a55aebe51,
     type: 3}
+  initialSwipeSpeed: 1000
+  swipeAccelerationRate: 1000
+  minScale: 0.98
+  scaleSpeed: 10
+  downloadButton: {fileID: 2060172955}
+  dragSpeedLimit: 1500
 --- !u!95 &1584630294
 Animator:
   serializedVersion: 3
@@ -41933,8 +42007,8 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "Nathan et Isabel, \xE7a date. \"Douuuuze aaaans?\" Oui, cela fait maintenant
     douze ans qu'ils sont ensemble, pour le meilleur et pour le pire, mais surtout
-    pour le meilleur.\n\nC'est ce soir-l\xE0 que tout a commenc\xE9, entour\xE9s d'une
-    jolie bande de copains. Un bisou dans le dortoir, quand tout le monde dormait
+    pour le meilleur.\n\nC'est ce soir-l\xE0 que tout a commenc\xE9, entour\xE9s
+    d'une jolie bande de copains. Un bisou dans le dortoir, quand tout le monde dormait
     autour (d\xE9sol\xE9s les gars!)."
 --- !u!222 &1586674154
 CanvasRenderer:
@@ -50653,8 +50727,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Les coordonn\xE9es des t\xE9moins sont disponibles dans l\u2019onglet \xAB
-    <b>T\xE9moins</b> \xBB."
+  m_Text: "Les coordonn\xE9es des t\xE9moins sont disponibles dans l\u2019onglet
+    \xAB <b>T\xE9moins</b> \xBB."
 --- !u!222 &1967186851
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -51808,6 +51882,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1274308022}
+  - {fileID: 2060172954}
   m_Father: {fileID: 1584630292}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -53067,6 +53142,150 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &2060172953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2060172954}
+  - component: {fileID: 2060172957}
+  - component: {fileID: 2060172956}
+  - component: {fileID: 2060172955}
+  - component: {fileID: 2060172958}
+  m_Layer: 5
+  m_Name: Download
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2060172954
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060172953}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1121340444}
+  m_Father: {fileID: 2008671807}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.06}
+  m_AnchoredPosition: {x: -8, y: 8}
+  m_SizeDelta: {x: -322.55423, y: -8}
+  m_Pivot: {x: 1, y: 0}
+--- !u!114 &2060172955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060172953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1121340445}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1584630293}
+        m_MethodName: DownloadPicture
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2060172956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060172953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2060172957
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060172953}
+  m_CullTransparentMesh: 0
+--- !u!114 &2060172958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060172953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 1
 --- !u!1 &2061523054
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ public class BackEventScript : MonoBehaviour
 {
     public Transform popup;
 
-    private AndroidJavaObject m_activity;
     private ScreenManager m_screenManager;
 
     protected void Start()
@@ -32,7 +31,6 @@ public class BackEventScript : MonoBehaviour
 #if UNITY_IOS || UNITY_EDITOR
             popup.gameObject.SetActive(true);
 #else
-            m_activity.Call<bool>("moveTaskToBack", true);
             return;
 #endif
         }
@@ -47,8 +45,7 @@ public class BackEventScript : MonoBehaviour
             {
 #if UNITY_IOS || UNITY_EDITOR
                 popup.gameObject.SetActive(true);
-#else
-                m_activity.Call<bool>("moveTaskToBack", true);
+#else           
                 return;
 #endif
             }

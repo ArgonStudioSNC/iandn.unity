@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,9 +35,8 @@ public class PhotosGalleryScript : MonoBehaviour
             }
             else
             {
-                GenerateGallery(album);
-                m_galleryManager.StopLoader();
                 AlertPrefab.LaunchAlert(message);
+                StartCoroutine(GenerateGallery(album));
             }
         }));
     }
@@ -51,8 +51,9 @@ public class PhotosGalleryScript : MonoBehaviour
     }
 
 
-    private void GenerateGallery(Album album)
+    private IEnumerator GenerateGallery(Album album)
     {
+        yield return null;
         Rect scrollAreaSize = transform.GetChild(0).GetComponent<RectTransform>().rect;
         float pictureSide = scrollAreaSize.width / 4.0f;
         float pictureHalfSide = pictureSide / 2.0f;
@@ -77,6 +78,8 @@ public class PhotosGalleryScript : MonoBehaviour
 
             Instantiate(photoPrefab, m_content).GetComponent<PhotoInGalleryScript>().PhotoIndex = i;
         }
+        AlertPrefab.LaunchAlert("La galerie a été générée avec succès.");
+        m_galleryManager.StopLoader();
     }
 
 

@@ -17,7 +17,9 @@ public class LoadingSpinScript : MonoBehaviour
     {
         m_spinnerImage = GetComponentInChildren<RawImage>();
         videoPlayer.Prepare();
+        StartCoroutine(SpinnerCoroutine());
     }
+
 
     protected void Update()
     {
@@ -25,15 +27,8 @@ public class LoadingSpinScript : MonoBehaviour
     }
 
 
-    public void StartWaitingScreen()
-    {
-        StartCoroutine(SpinnerCoroutine());
-    }
-
-
     public void StopWaitingScreen()
     {
-        videoPlayer.isLooping = false;
         StartCoroutine(WaitForVideoPlayer());
     }
 
@@ -42,26 +37,32 @@ public class LoadingSpinScript : MonoBehaviour
         do
         {
             yield return null;
-        } while (videoPlayer.isPlaying || m_time < minimumDuration);
+        } while (m_time < minimumDuration);
+        videoPlayer.isLooping = false;
 
+        while (videoPlayer.isPlaying)
+        {
+            yield return null;
+        }
         videoPlayer.Stop();
+
         Destroy(gameObject);
     }
 
     private IEnumerator SpinnerCoroutine()
     {
-        while (!videoPlayer.isPrepared)
+        do
         {
             yield return null;
-        }
-
+        } while (!videoPlayer.isPrepared);
         videoPlayer.Play();
-        while (videoPlayer.frame < 1)
+
+        do
         {
             yield return null;
-        }
-
+        } while (videoPlayer.frame < 1);
         m_spinnerImage.texture = videoPlayer.texture;
+
         m_running = true;
     }
 }

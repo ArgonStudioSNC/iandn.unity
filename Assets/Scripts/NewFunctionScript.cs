@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class NewFunctionScript : MonoBehaviour
 {
-    private DateTime disableTime = new DateTime(2019, 10, 7, 0, 0, 0);
+    private DateTime disableTime = new DateTime(2019, 12, 13, 0, 0, 0);
     private Text m_text;
 
     protected void Awake()
