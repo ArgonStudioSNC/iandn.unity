@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
+public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Transform viewport;
     public Transform draggablePanel;
     public GameObject fullScreenPhotoPrefab;
-    public float initialSwipeSpeed = 2.0f;
+    public float minimumSwipeSpeed = 1000.0f;
     public float swipeAccelerationRate = 1000.0f;
     public float minScale = 0.85f;
     public float scaleSpeed = 2.0f;
     public Button downloadButton;
     public float dragSpeedLimit = 1500;
+    public float spacing = 2.0f;
 
 
+    private ScreenManager m_screenManager;
+    private Album m_album;
     private float m_viewportWidth;
-    private List<Photo> m_albumContent;
     private RectTransform m_prefabRectTransform;
     private RawImage m_prefabRawImage;
     private AspectRatioFitter m_prefabFitter;
@@ -29,8 +31,6 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private float m_currentPosition;
     private float m_referencePosition;
     private float m_tmpPosition;
-    private bool m_photoZoomON = false;
-    private float m_currentScale = 1.0f;
     private float m_screenReference;
     private float m_dragSpeed;
 
@@ -43,6 +43,7 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     protected void Awake()
     {
+        m_screenManager = FindObjectOfType<ScreenManager>();
         m_prefabRectTransform = fullScreenPhotoPrefab.GetComponent<RectTransform>();
         m_prefabRawImage = fullScreenPhotoPrefab.GetComponentInChildren<RawImage>();
         m_prefabFitter = fullScreenPhotoPrefab.GetComponentInChildren<AspectRatioFitter>();
@@ -57,8 +58,8 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     protected void OnEnable()
     {
-        m_albumContent = new List<Photo>(GalleryManager.gallery.albums[GalleryManager.CurrentAlbumIndex].content);
-        m_referencePosition = -GalleryManager.CurrentPhotoIndex * m_viewportWidth;
+        m_album = GalleryManager.gallery.albums[GalleryManager.CurrentAlbumIndex];
+        m_referencePosition = -GalleryManager.CurrentPhotoIndex * (m_viewportWidth + spacing);
         m_draggableRectTransform.localPosition = new Vector2(m_referencePosition, m_draggableRectTransform.localPosition.y);
 
         m_currentPosition = m_referencePosition;
@@ -73,12 +74,12 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             Destroy(child.gameObject);
         }
+        Resources.UnloadUnusedAssets();
     }
 
     protected void Update()
     {
         m_draggableRectTransform.localPosition = new Vector2(m_currentPosition, m_draggableRectTransform.localPosition.y);
-        PhotosDragged();
     }
 
 
@@ -100,7 +101,6 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log(m_dragSpeed);
         if (m_dragSpeed > dragSpeedLimit)
         {
             Right();
@@ -124,20 +124,10 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
     }
 
-    public void OnPointerDown(PointerEventData pointerEventData)
-    {
-        m_photoZoomON = true;
-    }
-
-    public void OnPointerUp(PointerEventData pointerEventData)
-    {
-        m_photoZoomON = false;
-    }
-
     public void DownloadPicture()
     {
         downloadButton.interactable = false;
-        StartCoroutine(ImageDownloader.GetBytesAsync(new Uri("https://iandn.app/photo/" + m_albumContent[GalleryManager.CurrentPhotoIndex].id + "/p"), (file, message) =>
+        StartCoroutine(ImageDownloader.GetBytesAsync(new Uri("https://iandn.app/photo/" + m_album.content[GalleryManager.CurrentPhotoIndex].id + "/p"), (file, message) =>
         {
             if (file == null) AlertPrefab.LaunchAlert(message);
             else
@@ -216,21 +206,39 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private GameObject InstantiatePhoto(int photoIndex)
     {
-        m_prefabRectTransform.anchoredPosition = new Vector2(photoIndex * m_viewportWidth, 0);
+        Photo photo = m_album.content[photoIndex];
+        m_prefabRectTransform.anchoredPosition = new Vector2(photoIndex * (m_viewportWidth + spacing), 0);
+        fullScreenPhotoPrefab.name = "Photo " + photoIndex + "(id " + m_album.content[photoIndex].id + ")";
 
-        Texture photoTexture = m_albumContent[photoIndex].texture;
-        m_prefabFitter.aspectRatio = photoTexture.width / (float)photoTexture.height;
-        m_prefabRawImage.texture = photoTexture;
+        GameObject photoInstance = Instantiate(fullScreenPhotoPrefab, draggablePanel);
+        SetTextureInner(photoInstance, photo);
+        return photoInstance;
 
-        fullScreenPhotoPrefab.name = "Photo " + photoIndex + "(id " + m_albumContent[photoIndex].id + ")";
-        return Instantiate(fullScreenPhotoPrefab, draggablePanel);
+        void SetTextureInner(GameObject photoGo, Photo p)
+        {
+            StartCoroutine(ImageDownloader.GetTextureFromZipAsync(@"/photos/" + Path.GetFileNameWithoutExtension(m_album.zip_name), "/" + p.picture_name, new Uri("https://iandn.app/photo/album/" + m_album.id + "/zip/"), (photoTexture, innerMessage) =>
+            {
+                if (!photoTexture)
+                {
+                    StopAllCoroutines();
+                    m_screenManager.CloseCurrent();
+                    AlertPrefab.LaunchAlert(innerMessage);
+                }
+                else
+                {
+                    photoGo.GetComponentInChildren<AspectRatioFitter>().aspectRatio = photoTexture.width / (float)photoTexture.height;
+                    photoGo.GetComponentInChildren<RawImage>().texture = photoTexture;
+                }
+            }));
+        }
     }
 
 
     private IEnumerator SwipeAnimation()
     {
-        float swipeSpeed = initialSwipeSpeed * m_screenReference;
-        m_referencePosition = -GalleryManager.CurrentPhotoIndex * m_viewportWidth;
+        float swipeSpeed = Math.Max(minimumSwipeSpeed * m_screenReference, Math.Abs(m_dragSpeed));
+
+        m_referencePosition = -GalleryManager.CurrentPhotoIndex * (m_viewportWidth + spacing);
         m_tmpPosition = m_currentPosition;
 
         if (m_tmpPosition > m_referencePosition)
@@ -238,8 +246,8 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             swipeSpeed = -swipeSpeed;
             for (m_tmpPosition = m_currentPosition; m_tmpPosition > m_referencePosition; m_tmpPosition += swipeSpeed * Time.deltaTime)
             {
-                swipeSpeed -= Time.deltaTime * swipeAccelerationRate;
-                m_currentPosition = Mathf.Clamp(m_tmpPosition, m_referencePosition - m_viewportWidth, m_referencePosition + m_viewportWidth);
+                swipeSpeed -= Time.deltaTime * swipeAccelerationRate * m_screenReference;
+                m_currentPosition = Mathf.Clamp(m_tmpPosition, m_referencePosition - (m_viewportWidth + spacing), m_referencePosition + (m_viewportWidth + spacing));
                 yield return null;
             }
             m_currentPosition = m_referencePosition;
@@ -248,8 +256,8 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             for (m_tmpPosition = m_currentPosition; m_tmpPosition < m_referencePosition; m_tmpPosition += swipeSpeed * Time.deltaTime)
             {
-                swipeSpeed += Time.deltaTime * swipeAccelerationRate;
-                m_currentPosition = Mathf.Clamp(m_tmpPosition, m_referencePosition - m_viewportWidth, m_referencePosition + m_viewportWidth);
+                swipeSpeed += Time.deltaTime * swipeAccelerationRate * m_screenReference;
+                m_currentPosition = Mathf.Clamp(m_tmpPosition, m_referencePosition - (m_viewportWidth + spacing), m_referencePosition + (m_viewportWidth + spacing));
                 yield return null;
             }
             m_currentPosition = m_referencePosition;
@@ -266,39 +274,11 @@ public class PhotosScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         if (!previousPhoto) previousPhoto = IndexExist(index - 1) ? InstantiatePhoto(index - 1) : null;
         if (!nextNextPhoto) nextNextPhoto = IndexExist(index + 2) ? InstantiatePhoto(index + 2) : null;
         if (!previousPreviousPhoto) previousPreviousPhoto = IndexExist(index - 2) ? InstantiatePhoto(index - 2) : null;
-    }
-
-    private void PhotosDragged()
-    {
-        float minValue = minScale;
-        float maxValue = 1.0f;
-        if (m_photoZoomON && m_currentScale > minValue)
-        {
-            m_currentScale = Mathf.Clamp(m_currentScale - (scaleSpeed * m_screenReference * Time.deltaTime), minValue, maxValue);
-            Apply();
-        }
-        else if (!m_photoZoomON && m_currentScale < maxValue)
-        {
-            m_currentScale = Mathf.Clamp(m_currentScale + (scaleSpeed * m_screenReference * Time.deltaTime), minValue, maxValue);
-            Apply();
-        }
-
-        void Apply()
-        {
-            Vector3 scaleVector = new Vector3(m_currentScale, m_currentScale, m_currentScale);
-            Color color = new Color(1, 1, 1, m_currentScale);
-
-            if (currentPhoto) currentPhoto.GetComponentInChildren<RectTransform>().localScale = scaleVector;
-            if (nextPhoto) nextPhoto.GetComponentInChildren<RectTransform>().localScale = scaleVector;
-            if (previousPhoto) previousPhoto.GetComponentInChildren<RectTransform>().localScale = scaleVector;
-            if (currentPhoto) currentPhoto.GetComponentInChildren<RawImage>().color = color;
-            if (nextPhoto) nextPhoto.GetComponentInChildren<RawImage>().color = color;
-            if (previousPhoto) previousPhoto.GetComponentInChildren<RawImage>().color = color;
-        }
+        Resources.UnloadUnusedAssets();
     }
 
     private bool IndexExist(int i)
     {
-        return (i >= 0 && i < m_albumContent.Count);
+        return (i >= 0 && i < m_album.content.Count);
     }
 }

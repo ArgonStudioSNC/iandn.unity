@@ -118,7 +118,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.502
+  bundleVersion: 1.504
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -166,8 +166,8 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: com.argonstudio.ilssemarient
   buildNumber:
-    iPhone: 210010502
-  AndroidBundleVersionCode: 210010502
+    iPhone: 210010504
+  AndroidBundleVersionCode: 210010504
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -260,7 +260,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: W:/keystore/android.keystore
+  AndroidKeystoreName: '{dedicated}: android.keystore'
   AndroidKeyaliasName: com.argonstudio.iandn
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
@@ -393,42 +393,12 @@ PlayerSettings:
       m_SubKind: 
   - m_BuildTarget: iPhone
     m_Icons:
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 87
-      m_Height: 87
-      m_Kind: 1
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 58
-      m_Height: 58
-      m_Kind: 1
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 29
-      m_Height: 29
-      m_Kind: 1
-      m_SubKind: iPhone
     - m_Textures: []
-      m_Width: 58
-      m_Height: 58
-      m_Kind: 1
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 29
-      m_Height: 29
-      m_Kind: 1
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 0}
       m_Width: 60
       m_Height: 60
       m_Kind: 2
       m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 40
       m_Height: 40
       m_Kind: 2
@@ -443,41 +413,12 @@ PlayerSettings:
       m_Height: 20
       m_Kind: 2
       m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: 953109d4bf0c8db49bd7673cbfa867ff, type: 3}
-      m_Width: 180
-      m_Height: 180
-      m_Kind: 0
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 120
-      m_Height: 120
-      m_Kind: 0
-      m_SubKind: iPhone
     - m_Textures: []
-      m_Width: 167
-      m_Height: 167
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 152
-      m_Height: 152
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 76
-      m_Height: 76
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 0}
       m_Width: 120
       m_Height: 120
       m_Kind: 3
       m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 80
       m_Height: 80
       m_Kind: 3
@@ -492,8 +433,63 @@ PlayerSettings:
       m_Height: 40
       m_Kind: 3
       m_SubKind: iPad
+    - m_Textures: []
+      m_Width: 87
+      m_Height: 87
+      m_Kind: 1
+      m_SubKind: iPhone
+    - m_Textures: []
+      m_Width: 58
+      m_Height: 58
+      m_Kind: 1
+      m_SubKind: iPhone
+    - m_Textures: []
+      m_Width: 29
+      m_Height: 29
+      m_Kind: 1
+      m_SubKind: iPhone
+    - m_Textures: []
+      m_Width: 58
+      m_Height: 58
+      m_Kind: 1
+      m_SubKind: iPad
+    - m_Textures: []
+      m_Width: 29
+      m_Height: 29
+      m_Kind: 1
+      m_SubKind: iPad
     - m_Textures:
       - {fileID: 2800000, guid: 953109d4bf0c8db49bd7673cbfa867ff, type: 3}
+      m_Width: 180
+      m_Height: 180
+      m_Kind: 0
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 0}
+      m_Width: 120
+      m_Height: 120
+      m_Kind: 0
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 0}
+      m_Width: 167
+      m_Height: 167
+      m_Kind: 0
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 0}
+      m_Width: 152
+      m_Height: 152
+      m_Kind: 0
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 0}
+      m_Width: 76
+      m_Height: 76
+      m_Kind: 0
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: 94826937aca709d4681dbeb8ba087e06, type: 3}
       m_Width: 1024
       m_Height: 1024
       m_Kind: 4

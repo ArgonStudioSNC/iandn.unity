@@ -32,10 +32,10 @@ RectTransform:
   m_Father: {fileID: 5552304999210794033}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.33167937, y: 0.37516907}
+  m_AnchorMax: {x: 0.6686794, y: 0.62541544}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5413995582600949464
 CanvasRenderer:
@@ -65,18 +65,21 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 1fec4af204dc06249b3cfae77aa57cc8, type: 3}
-    m_FontSize: 18
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 1
-    m_MaxSize: 18
+    m_MaxSize: 12
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Chargement...
+  m_Text: 'Chargement des photos
+
+
+    50%'
 --- !u!1 &3281603727216830556
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 3281603727216830546}
   spinner: {fileID: 5552304999210794033}
-  minimumDuration: 2
+  minimumDuration: 1.2
 --- !u!95 &7890047128389392307
 Animator:
   serializedVersion: 3

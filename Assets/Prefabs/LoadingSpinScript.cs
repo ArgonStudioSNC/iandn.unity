@@ -12,9 +12,13 @@ public class LoadingSpinScript : MonoBehaviour
     private RawImage m_spinnerImage;
     private bool m_running = false;
     private float m_time = 0.0f;
+    private Text m_textComponent;
+
+    public static string Text { get; set; }
 
     protected void Awake()
     {
+        m_textComponent = GetComponentInChildren<Text>();
         m_spinnerImage = GetComponentInChildren<RawImage>();
         videoPlayer.Prepare();
         StartCoroutine(SpinnerCoroutine());
@@ -23,6 +27,7 @@ public class LoadingSpinScript : MonoBehaviour
 
     protected void Update()
     {
+        m_textComponent.text = Text;
         if (m_running) m_time += Time.deltaTime;
     }
 
