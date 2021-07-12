@@ -9,7 +9,7 @@ Application mobile pour le mariage d'un ami et collègue. Réalisée en 2019, su
 - Partage e6t téléchargement des photos après le mariage
 - Quizz
 
-##Liens de téléchargement (nécessite un code pour ouvrir l'application)
+## Liens de téléchargement (nécessite un code pour ouvrir l'application)
 
 - [GooglePlay](https://play.google.com/store/apps/details?id=com.argonstudio.iandn)
 - [App Store](https://itunes.apple.com/ch/app/ils-se-marient-wedding-app/id1465633874?l=fr&mt=8)
