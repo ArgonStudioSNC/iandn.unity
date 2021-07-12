@@ -1,4 +1,5 @@
-# I and N - Isabel et Nathan se marient [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# I and N - Isabel et Nathan se marient
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## À propos
 
