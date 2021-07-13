@@ -1,14 +1,17 @@
-# I and N - Isabel et Nathan se marient
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<p align="center"><a href="https://iandn.app/" target="_blank"><img src="https://raw.githubusercontent.com/ArgonStudioSNC/iandn.unity/main/.github/logo-lockup/logo-round.png" width="200"></a></p>
 
-## À propos
+<p align="center">
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
+</p>
+
+## À propos de l'application
 
 Application mobile pour le mariage d'un ami et collègue. Réalisée en 2019, sur Unity3D.
 - Inscriptions au mariage
 - Programme et informations, hébergement, contact
 - "Paparazzi", flux d'image en direct
 - Partage e6t téléchargement des photos après le mariage
-- Quizz
+- Quizz et jeux
 
 ## Liens de téléchargement (nécessite un code pour ouvrir l'application)
 
